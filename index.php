@@ -6,29 +6,10 @@
 
 <div class="bg-yellow container shadow">
 
-    <form id="contacto" action="">
+    <form id="contacto" action="#">
         <legend>Añada un Contacto <span>Todos los campos son obligarios</span></legend>
 
-        <div class="fields">
-            <div class="field">
-                <label for="name">Nombre:</label>
-                <input type="text" placeholder="Nombre de Contacto"
-                id="name">
-            </div> 
-            <div class="field">
-                <label for="workplace">Empresa:</label>
-                <input type="text" placeholder="Nombre de Empresa"
-                id="workplace">
-            </div> 
-            <div class="field">
-                <label for="phone">Telefono:</label>
-                <input type="tel" placeholder="Telefono de Contacto"
-                id="phone">
-            </div>      
-        </div>
-        <div class="field send">
-                <input type="submit" value="Añadir">
-        </div>  
+        <?php include_once 'inc/layouts/form.php'; ?>
     </form>
 
 </div>
@@ -57,7 +38,7 @@
                         <td>Apple</td>
                         <td>23424235</td>
                         <td>
-                            <a class="btn btn-edit" href="#">
+                            <a class="btn btn-edit" href="edit.php?id=1">
                                 <i class="fas fa-pen-square"></i>
                             </a>
                             <button data-id="1" class="btn btn-delete" type="button"><i class="fas fa-trash-alt"></i></button>
@@ -68,7 +49,7 @@
                         <td>Apple</td>
                         <td>23424235</td>
                         <td>
-                            <a class="btn btn-edit" href="#">
+                            <a class="btn btn-edit" href="edit.php?id=1">
                                 <i class="fas fa-pen-square"></i>
                             </a>
                             <button data-id="1" class="btn btn-delete" type="button"><i class="fas fa-trash-alt"></i></button>
@@ -79,7 +60,7 @@
                         <td>Apple</td>
                         <td>23424235</td>
                         <td>
-                            <a class="btn btn-edit" href="#">
+                            <a class="btn btn-edit" href="edit.php?id=1">
                                 <i class="fas fa-pen-square"></i>
                             </a>
                             <button data-id="1" class="btn btn-delete" type="button"><i class="fas fa-trash-alt"></i></button>

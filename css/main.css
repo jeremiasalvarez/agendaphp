@@ -10,6 +10,7 @@
 
 html {
     box-sizing: border-box;
+    height: 100%;
 }
 
 *,
@@ -21,6 +22,7 @@ html {
 body {
     background-color: var(--primary);
     font-family: var(--primaryFont);
+    height: 100%;
 }
 
 .container {
@@ -63,6 +65,12 @@ h2 {
 
 .bar-container {
     background-color: var(--primaryDark);
+}
+
+.bar {
+    display: grid;
+    align-items: center;
+    grid-template-columns: 100px 1fr;
 }
 
 
@@ -225,4 +233,37 @@ legend span {
 
 .btn-delete {
     color: var(--primary);
+}
+
+.return {
+    background-color: var(--secondary);
+    border-radius: 5px;
+    text-align: center;
+    padding: .5rem;
+    color: #000000;
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+.popup {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    padding: 1rem 3rem;
+    opacity: 0;
+    transition: opacity .5s ease-in-out;
+}
+
+.visible {
+    opacity: 1;
+}
+
+.success {
+    background-color: rgb(179, 241, 117);
+    color: green;
+}
+
+.error {
+    background-color: rgb(238, 148, 166);
+    color: rgb(163, 0, 33);
 }
