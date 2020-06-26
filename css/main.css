@@ -227,6 +227,10 @@ legend span {
     text-decoration: none;
 }
 
+.btn:hover {
+    cursor: pointer;
+}
+
 .btn-edit {
     color: var(--secondary);
 }

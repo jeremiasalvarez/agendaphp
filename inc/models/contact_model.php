@@ -18,7 +18,8 @@ if ($_POST['action'] == 'create') {
             'data' => array(
                 'name' => $name,
                 'workplace' => $workplace, 
-                'phone' => $phone
+                'phone' => $phone,
+                'inserted_id' => $stmt->insert_id
             )
         );
 
@@ -32,10 +33,42 @@ if ($_POST['action'] == 'create') {
         );
     }
 
+    
+
+
+    echo json_encode($response);
  
 }
 
-echo json_encode($response);
+if ($_GET['action'] == 'delete') {
+
+    require_once('../functions/db.php');
+
+    $id = filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT);
+
+    try {
+        $stmt = $conn->prepare("DELETE FROM contacts WHERE contact_id = ?");
+        $stmt->bind_param("i",$id);
+        $stmt->execute();
+
+        if ($stmt->affected_rows == 1){
+            $response = array(
+                'status' => 'success'
+            );
+        }
+
+        $stmt->close();
+        $conn->close();
+    } catch (Exception $e ){
+        $response = array(
+            'error' => $e->getMessage()
+        );
+    }
+
+
+    echo json_encode($response);
+
+}
 
 
 ?>

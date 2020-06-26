@@ -1,4 +1,6 @@
-<?php include_once 'inc/layouts/header.php'; ?>
+<?php include_once 'inc/layouts/header.php'; 
+      include_once 'inc/functions/functions.php';  
+?>
 
 <div class="bar-container">
     <h1>Agenda de Contactos</h1>
@@ -31,42 +33,35 @@
                         <th>Acciones</th>
                     </tr>
                 </thead>
-
                 <tbody>
-                    <tr>
-                        <td>Juan</td>
-                        <td>Apple</td>
-                        <td>23424235</td>
-                        <td>
-                            <a class="btn btn-edit" href="edit.php?id=1">
-                                <i class="fas fa-pen-square"></i>
-                            </a>
-                            <button data-id="1" class="btn btn-delete" type="button"><i class="fas fa-trash-alt"></i></button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Juan</td>
-                        <td>Apple</td>
-                        <td>23424235</td>
-                        <td>
-                            <a class="btn btn-edit" href="edit.php?id=1">
-                                <i class="fas fa-pen-square"></i>
-                            </a>
-                            <button data-id="1" class="btn btn-delete" type="button"><i class="fas fa-trash-alt"></i></button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Juan</td>
-                        <td>Apple</td>
-                        <td>23424235</td>
-                        <td>
-                            <a class="btn btn-edit" href="edit.php?id=1">
-                                <i class="fas fa-pen-square"></i>
-                            </a>
-                            <button data-id="1" class="btn btn-delete" type="button"><i class="fas fa-trash-alt"></i></button>
-                        </td>
-                    </tr>
+                    <?php 
+                        $contacts = loadContacts();
+                        
 
+                        if ($contacts->num_rows): 
+                            
+                            foreach ($contacts as $contact):
+                            
+                            $name = $contact['contact_name'];    
+                            $phone = $contact['phone'];    
+                            $workplace = $contact['workplace'];
+                            $id = $contact['contact_id'];    
+                        ?>
+                            <tr>
+                                <td><?php echo $name ?></td>
+                                <td><?php echo $workplace ?></td>
+                                <td><?php echo $phone ?></td>
+                                <td>
+                                    <a class="btn btn-edit" href="edit.php?id=<?php echo $id?>">
+                                        <i class="fas fa-pen-square"></i>
+                                    </a>
+                                    <button data-id="<?php echo $id?>" class="btn btn-delete" type="button"><i class="fas fa-trash-alt"></i></button>
+                                </td>
+                            </tr>
+                    <?php   endforeach; 
+                        endif;  
+                    
+                    ?>
                 </tbody>
             </table>
         </div>
