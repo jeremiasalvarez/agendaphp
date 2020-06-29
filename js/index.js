@@ -1,6 +1,8 @@
 const formularioContacto = document.querySelector('#contacto');
 const tableBody = document.querySelector('#contact-list tbody');
 const contactCount = document.querySelector('.total-contacts span');
+const searchBox = document.querySelector('#search');
+
 
 events();
 
@@ -10,6 +12,104 @@ function events() {
 
     if (tableBody)
         tableBody.addEventListener('click', deleteContact);
+
+    if (searchBox) {
+        searchBox.addEventListener('input', readSearchBox);
+    }
+
+
+}
+
+function readSearchBox() {
+
+    const searchString = searchBox.value;
+
+    const xhr = new XMLHttpRequest();
+
+    xhr.open('GET', `inc/models/contact_model.php?searchString=${searchString}&action=search`, true);
+
+    xhr.onload = function() {
+
+        if (this.status === 200) {
+
+            const response = JSON.parse(xhr.responseText);
+
+            const contacts = response.contacts;
+
+            if (response.status == 'success') {
+                loadContacts(contacts);
+                console.log(response);
+                contactCount.innerHTML = response.count.count || response.count;
+            } else {
+                showPopup("Ocurrio un error al buscar el contacto", 'error');
+            }
+        }
+
+    }
+
+    xhr.send();
+
+
+}
+
+function loadContacts(contacts) {
+
+    //tableBody.remove();
+    const table = document.querySelector('#contact-list');
+
+    tableBody.innerHTML = '';
+
+    contacts.forEach(contact => {
+        const newContact = createContact(contact);
+        tableBody.appendChild(newContact);
+    });
+
+    table.appendChild(tableBody);
+
+}
+
+function createContact(contact) {
+
+    const newContact = document.createElement('tr');
+
+    newContact.innerHTML = `
+            <td>${contact[0]}</td>
+            <td>${contact[1]}</td>
+            <td>${contact[2]}</td>
+        `
+    const actionsContainer = document.createElement('td');
+
+    //* icon
+
+    const editIcon = document.createElement('i');
+
+    editIcon.classList.add('fas', 'fa-pen-square');
+
+    const editLink = document.createElement('a');
+    editLink.setAttribute('href', `edit.php?id=${contact[3]}`);
+    editLink.classList.add('btn', 'btn-edit');
+
+    editLink.appendChild(editIcon);
+
+
+    const deleteIcon = document.createElement('i');
+
+    deleteIcon.classList.add('fas', 'fa-trash-alt');
+
+    const deleteButton = document.createElement('button');
+
+    deleteButton.setAttribute('data-id', `${contact[3]}`);
+    deleteButton.setAttribute('type', 'button');
+    deleteButton.classList.add('btn', 'btn-delete');
+
+    deleteButton.appendChild(deleteIcon);
+
+    actionsContainer.appendChild(editLink);
+    actionsContainer.appendChild(deleteButton);
+
+    newContact.appendChild(actionsContainer);
+
+    return newContact;
 }
 
 function updateContact(data) {

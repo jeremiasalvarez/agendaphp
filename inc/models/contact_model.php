@@ -49,8 +49,6 @@ if ($_POST['action'] == 'update') {
 
 }
 
-
-
 if ($_POST['action'] == 'create') {
 
     require_once('../functions/db.php');
@@ -128,6 +126,42 @@ if ($_GET['action'] == 'delete') {
 
     echo json_encode($response);
 
+}
+
+if ($_GET['action'] == 'search'){
+
+    require_once('../functions/db.php');
+ 
+    require_once('../functions/functions.php');
+
+    $searchString = filter_var($_GET['searchString'], FILTER_SANITIZE_STRING);
+
+    try {
+
+        if (strlen($searchString) == 0){
+            $contacts = getAllContacts()->fetch_all();
+            $count = getContactCount();
+        } else {
+            $res = searchContacts($searchString);
+            $contacts = $res['contacts'];
+            $count = $res['count'];
+        }
+
+        $response = array(
+            'status' => 'success',
+            'contacts' => $contacts,
+            'count' => $count
+        );
+
+        $conn->close();
+    } catch (Exception $e ){
+        $response = array(
+            'error' => $e->getMessage()
+        );
+    }
+
+
+    echo json_encode($response);
 }
 
 ?>
