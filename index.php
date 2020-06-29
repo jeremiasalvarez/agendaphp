@@ -18,10 +18,13 @@
 
 <div class="bg-white container shadow contacts">
     <div class="contacts-container">
-        <h2>Contactos</h2>
+        <h2>Buscar Contactos</h2>
         <input type="text" id="search" class="explorer shadow" placeholder="Buscar Contactos..">
 
-        <p class="total-contacts"><span>2 </span>Contactos</p>
+        <p class="total-contacts"><span><?php 
+            $count = getContactCount();
+            echo $count;
+        ?></span>Contactos</p>
 
         <div class="table-container">
             <table id="contact-list" class="contact-list">
@@ -36,7 +39,6 @@
                 <tbody>
                     <?php 
                         $contacts = loadContacts();
-                        
 
                         if ($contacts->num_rows): 
                             

@@ -1,13 +1,48 @@
 const formularioContacto = document.querySelector('#contacto');
 const tableBody = document.querySelector('#contact-list tbody');
-
+const contactCount = document.querySelector('.total-contacts span');
 
 events();
 
 
 function events() {
     formularioContacto.addEventListener('submit', readForm);
-    tableBody.addEventListener('click', deleteContact);
+
+    if (tableBody)
+        tableBody.addEventListener('click', deleteContact);
+}
+
+function updateContact(data) {
+
+    const xhr = new XMLHttpRequest();
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const contactId = urlParams.get('id');
+
+    xhr.open('POST', `inc/models/contact_model.php?id=${contactId}&action=update`, true);
+
+    xhr.onload = function() {
+        if (this.status == 200) {
+
+            const response = JSON.parse(xhr.responseText);
+
+            console.log(response);
+
+            if (response.status === 'correct') {
+
+                showPopup("Contacto actualizado Exitosamente", 'success');
+                setTimeout(() => {
+                    showPopup("Redireccionando a la Pagina Principal", 'success');
+                }, 1500)
+                setTimeout(() => {
+                    window.location.href = 'index.php';
+                }, 3000);
+            }
+
+        }
+    }
+
+    xhr.send(data);
 }
 
 function deleteContact(e) {
@@ -18,7 +53,7 @@ function deleteContact(e) {
 
         const deleteButton = e.target.parentElement;
 
-        console.log(deleteButton);
+        //console.log(deleteButton);
         const contactId = deleteButton.getAttribute('data-id');
 
         const userResponse = confirm("¿Estas seguro de que quieres eliminar el contacto?");
@@ -41,6 +76,8 @@ function deleteContact(e) {
                         const row = e.target.parentElement.parentElement.parentElement;
 
                         row.remove();
+
+                        contactCount.innerHTML = response.contact_count;
 
                         showPopup("El contacto se elimino exitosamente", 'success');
 
@@ -82,6 +119,8 @@ function readForm(event) {
 
         if (action === 'create') {
             insertDb(contactInfo);
+        } else if (action === 'update') {
+            updateContact(contactInfo);
         }
     }
 }
@@ -116,6 +155,8 @@ function insertDb(data) {
             const response = JSON.parse(xhr.responseText);
 
             const newContact = document.createElement('tr');
+
+
 
             newContact.innerHTML = `
                 <td>${response.data.name}</td>
@@ -155,6 +196,10 @@ function insertDb(data) {
             newContact.appendChild(actionsContainer);
 
             tableBody.appendChild(newContact);
+
+            console.log(response.data.total_count);
+
+            contactCount.innerHTML = response.data.contact_count;
 
             showPopup('Contacto creado exitosamente', 'success');
 
