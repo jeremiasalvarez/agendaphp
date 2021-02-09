@@ -28,7 +28,7 @@ function readSearchBox() {
 
     xhr.open('GET', `inc/models/contact_model.php?searchString=${searchString}&action=search`, true);
 
-    xhr.onload = function() {
+    xhr.onload = function () {
 
         if (this.status === 200) {
 
@@ -121,7 +121,7 @@ function updateContact(data) {
 
     xhr.open('POST', `inc/models/contact_model.php?id=${contactId}&action=update`, true);
 
-    xhr.onload = function() {
+    xhr.onload = function () {
         if (this.status == 200) {
 
             const response = JSON.parse(xhr.responseText);
@@ -133,10 +133,10 @@ function updateContact(data) {
                 showPopup("Contacto actualizado Exitosamente", 'success');
                 setTimeout(() => {
                     showPopup("Redireccionando a la Pagina Principal", 'success');
-                }, 1500)
+                }, 500)
                 setTimeout(() => {
                     window.location.href = 'index.php';
-                }, 3000);
+                }, 1500);
             }
 
         }
@@ -164,7 +164,7 @@ function deleteContact(e) {
 
             xhr.open('GET', `inc/models/contact_model.php?id=${contactId}&action=delete`, true);
 
-            xhr.onload = function() {
+            xhr.onload = function () {
 
                 if (this.status === 200) {
 
@@ -249,7 +249,7 @@ function insertDb(data) {
 
     xhr.open('POST', 'inc/models/contact_model.php', true);
 
-    xhr.onload = function() {
+    xhr.onload = function () {
         if (this.status == 200) {
 
             const response = JSON.parse(xhr.responseText);
